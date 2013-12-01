@@ -49,16 +49,16 @@ public class SquareView extends ImageView {
 	}
 	
 	/**
+	 * Returns the GameMap of this SquareView
 	 * 
-	 * 
-	 * @return
+	 * @return gameMap
 	 */
 	public GameMap getGameMap() {
 		return gameMap;
 	}
 	
 	/**
-	 * 
+	 * Set the GameMap of this SquareView
 	 * 
 	 * @param gameMap
 	 */
@@ -67,7 +67,7 @@ public class SquareView extends ImageView {
 	}
 
 	/**
-	 * 
+	 * Returns the x position of this SquareView on the GameMap
 	 * 
 	 * @return
 	 */
@@ -76,6 +76,7 @@ public class SquareView extends ImageView {
 	}
 	
 	/**
+	 * Set the x position of this SquareView on the GameMap
 	 * 
 	 * @param xPos
 	 */
@@ -84,6 +85,7 @@ public class SquareView extends ImageView {
 	}
 
 	/**
+	 * Returns the y position of this SquareView on the GameMap
 	 * 
 	 * @return
 	 */
@@ -92,6 +94,7 @@ public class SquareView extends ImageView {
 	}
 	
 	/**
+	 * Set the y position of this SquareView on the GameMap
 	 * 
 	 * @param yPos
 	 */
