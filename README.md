@@ -3,7 +3,7 @@ PegSolitaire
 
 A simple retro board game created with JavaFx.
 
-It's created with Java 7 x64 and Maven.
+Compiled with Java 7 (x64) and Maven.
 
 Graphics created with Tiled: http://www.mapeditor.org/
 
