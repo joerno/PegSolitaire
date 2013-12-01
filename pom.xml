@@ -1,0 +1,203 @@
+<!-- With help of http://myjavafx.blogspot.de/2012/08/building-signing-and-deploying-your.html -->
+<!-- Run all with maven: 'mvn clean install org.codehaus.mojo:exec-maven-plugin:exec' -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.ohmen.fxgame</groupId>
+	<artifactId>PegSolitaire</artifactId>
+	<version>0.0.2-Final</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javafx.version>2.2</javafx.version>		
+		
+		<!-- set the JavaFx-Path jre/lib and jdk/lib to build the project --> 
+		
+		<!-- example on MacOS: -->
+		<javafx.runtime.lib>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/</javafx.runtime.lib>
+		<javafx.runtime.lib.ant>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/lib/</javafx.runtime.lib.ant>
+		
+		<!--  exampl windows
+		<javafx.runtime.lib>C:\Program Files\Java\jdk1.7.0_45\jre\lib\</javafx.runtime.lib>
+		<javafx.runtime.lib.ant>C:\Program Files\Java\jdk1.7.0_45\lib\</javafx.runtime.lib.ant>	 
+		-->	
+		
+		<log4j.version>1.2.17</log4j.version>
+		<junit.version>4.11</junit.version>		
+	</properties>
+ 
+	<dependencies>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>javafx</groupId>
+			<artifactId>jfxrt</artifactId>
+			<version>${javafx.version}</version>
+			<scope>system</scope>
+			<systemPath>${javafx.runtime.lib}jfxrt.jar</systemPath>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- deactivate Mavens default jar and install process or we will have two jar files... -->	  
+			<plugin>
+        		<artifactId>maven-jar-plugin</artifactId>
+        		<version>2.4</version>
+        		<executions>
+          			<execution>
+           		 		<id>default-jar</id>
+            			<phase>never</phase>
+            			<configuration>
+              				<finalName>unwanted</finalName>
+              				<classifier>unwanted</classifier>
+            			</configuration>
+          			</execution>
+        		</executions>
+      		</plugin>
+      		<plugin>
+        		<artifactId>maven-install-plugin</artifactId>
+        		<version>2.4</version>
+        		<executions>
+          			<execution>
+            		<id>default-install</id>
+            		<phase>never</phase>
+            		<configuration>
+              			<finalName>unwanted</finalName>
+              			<classifier>unwanted</classifier>
+            		</configuration>
+          		</execution>
+        	</executions>
+      	</plugin>  
+      
+		<!-- Copy libs needed in classpath to run the jar -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>copy-dependencies</id>
+					<phase>install</phase>
+					<goals>
+						<goal>copy-dependencies</goal>
+					</goals>
+					<configuration>
+						<includeScope>runtime</includeScope>
+						<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						<overWriteReleases>true</overWriteReleases>
+						<overWriteSnapshots>true</overWriteSnapshots>
+						<overWriteIfNewer>true</overWriteIfNewer>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		<!--  JavaFx has only ant support, so use the maven ant plugin for building... -->
+		<plugin>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>1.7</version>
+			<executions>
+				<execution>
+					<phase>install</phase>
+					<configuration>
+						<target xmlns:fx="javafx:com.sun.javafx.tools.ant">						
+								
+							<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath="${javafx.runtime.lib.ant}ant-javafx.jar" />
+														
+							<fx:application id="${project.artifactId}" name="${project.artifactId}}" mainClass="${project.groupId}.${project.artifactId}" />
+															
+							<fx:jar destfile="${project.build.directory}${file.separator}${project.artifactId}-${project.version}.jar">
+                        
+                        		<fx:resources id="appRes">									
+									<fx:fileset dir="${project.build.directory}${file.separator}" includes="lib/log4j-${log4j.version}.jar" />
+								</fx:resources>
+                        		
+                        		<manifest>
+				                	<attribute name="Implementation-Title" value="${project.artifactId}"/>
+                					<attribute name="Implementation-Version" value="${project.version}"/>
+           						</manifest>
+            
+								<fx:application refid="${project.artifactId}" />								
+								<fileset dir="${project.build.outputDirectory}" />
+							</fx:jar>
+						</target>						
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+			</executions>
+			</plugin>		
+			<!-- Run the installation and application with maven: 'mvn clean install org.codehaus.mojo:exec-maven-plugin:exec' -->
+			<plugin>
+        		<groupId>org.codehaus.mojo</groupId>
+       			<artifactId>exec-maven-plugin</artifactId>
+       			<version>1.2.1</version>
+       			<executions>
+       	    		<execution>
+       	    			<id>default-cli</id>
+	               		<goals>
+   	               			<goal>exec</goal>
+       	        		</goals>
+           	    		<configuration>
+               	   			<executable>java</executable>
+           	       			<workingDirectory>${project.build.directory}</workingDirectory>
+       	           			<arguments>
+   	                   			<argument>-jar</argument>
+                       			<argument>${project.artifactId}-${project.version}.jar</argument>
+                   			</arguments>
+   	         			</configuration>                        
+       				</execution>
+       			</executions>
+	    	</plugin> 
+		</plugins>
+		
+		<!-- Eclipse dont like the 'copy-dependencies-plugin' from above, so ignore it... -->
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.1,)
+										</versionRange>
+										<goals>
+											<goal>
+												copy-dependencies
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
