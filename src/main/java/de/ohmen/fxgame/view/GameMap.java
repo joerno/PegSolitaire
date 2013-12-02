@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
  */
 public interface GameMap {
 
-	public final static Image BACKGROUND_IMAGE = new Image(GameMap.class.getResource("/images/background.png").toString());
 	public final static Image FINISHED_IMAGE = new Image(SquareView.class.getResource("/images/finished.png").toString());
 	 
     public final static int SQUARE_PX_WIDTH = 32;
@@ -51,5 +50,12 @@ public interface GameMap {
 	 * @return
 	 */
     public Group getMainGroup();
+    
+    /**
+     * Returns the background image of this map
+     * 
+     * @return Image
+     */
+    public Image getBackgroundImage();
     
 }

@@ -1,6 +1,7 @@
 package de.ohmen.fxgame.view;
 
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -12,7 +13,8 @@ import javafx.scene.image.ImageView;
 public class CrossGameMap implements GameMap{
 	
 	private final static int SQUARE_XY_COUNT = 11;
-	 
+	private final static Image BACKGROUND_IMAGE = new Image(CrossGameMap.class.getResource("/images/background.png").toString());
+	
 	private Group mainGroup; 
 	private Group knightGroup; 
 	private SquareView activeSquare;
@@ -36,7 +38,8 @@ public class CrossGameMap implements GameMap{
 		/* Initialize all fields with knights and empty images */
 		for (int x = 0; x < SQUARE_XY_COUNT; x++) {
 			for (int y = 0; y < SQUARE_XY_COUNT; y++) {
-				if ((x > 3 && x < 7 && y > 0 && y < 10 && y != 5) || (y > 3 && y < 7 && x > 0 && x < 10 && x != 5)) 
+				if ((x > 3 && x < 7 && y > 0 && y < 10 && y != 5) 
+				        || (y > 3 && y < 7 && x > 0 && x < 10 && x != 5)) 
 					squareViews[x][y] = new SquareView(this, x, y, SquareView.ACCESSIBLE_OCCUPIED);
 				else if (y == 5 && x == 5)
 					squareViews[x][y] = new SquareView(this, x, y, SquareView.ACCESSIBLE_EMPTY);
@@ -106,5 +109,10 @@ public class CrossGameMap implements GameMap{
 	public int getSquareXYCount() {
 		return SQUARE_XY_COUNT;
 	}
+
+    @Override
+    public Image getBackgroundImage() {        
+        return BACKGROUND_IMAGE;
+    }
 
 }

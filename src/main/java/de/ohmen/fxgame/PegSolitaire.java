@@ -41,7 +41,7 @@ public class PegSolitaire extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Steckhalma");
+        primaryStage.setTitle("Peg Solitaire");
         primaryStage.setScene(initGameScene());
         primaryStage.show();    	
         logger.info("JavaFx game started");
