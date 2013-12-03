@@ -47,7 +47,7 @@ public class SquareEventHandler implements EventHandler<MouseEvent> {
 			switch (currentClickedSquare.getCurrentState()) {
 				
 			/* A highlighted filed is clicked (a valid move, so remove a knight) */	
-			case (SquareView.ACCESSIBLE_EMPTY_HIGHLIGHT):
+			case (SquareView.EMPTY_HIGHLIGHT):
 					
 				/* remove a knight at removeX and removeY */
 				int removeX = ((currentxPos != activexPos) ? Math.abs((currentxPos + activexPos) / 2) : activexPos);
@@ -58,7 +58,7 @@ public class SquareEventHandler implements EventHandler<MouseEvent> {
 				break;
 			
 			/* a knight is clicked */
-			case (SquareView.ACCESSIBLE_OCCUPIED):
+			case (SquareView.OCCUPIED):
 				
 				/* not the same knight like earlier activated */
 				if (currentClickedSquare != alreadyActiveSquare) {
@@ -72,7 +72,7 @@ public class SquareEventHandler implements EventHandler<MouseEvent> {
 				break;
 			}
 			/* nothing is selected yet, activate clicked knight */
-		} else if (currentClickedSquare.getCurrentState() == SquareView.ACCESSIBLE_OCCUPIED) {
+		} else if (currentClickedSquare.getCurrentState() == SquareView.OCCUPIED) {
 			activateKnight(gameMap, currentClickedSquare);
 		}
 		me.consume();
@@ -114,10 +114,10 @@ public class SquareEventHandler implements EventHandler<MouseEvent> {
 	 * @param y
 	 */
 	public void removeKnight(GameMap gameMap, SquareView currentClickedSquare, int x, int y) {
-		gameMap.getSquareViews()[x][y].setCurrentState(SquareView.ACCESSIBLE_EMPTY);
+		gameMap.getSquareViews()[x][y].setCurrentState(SquareView.EMPTY);
 		gameMap.getActiveSquare().setEffect(null);
-		gameMap.getActiveSquare().setCurrentState(SquareView.ACCESSIBLE_EMPTY);
-		currentClickedSquare.setCurrentState(SquareView.ACCESSIBLE_OCCUPIED);
+		gameMap.getActiveSquare().setCurrentState(SquareView.EMPTY);
+		currentClickedSquare.setCurrentState(SquareView.OCCUPIED);
 		gameMap.setActiveSquare(null);
 		clearPossibleFieldsFromHighlight(gameMap);
 		isFinished(gameMap);
@@ -149,27 +149,27 @@ public class SquareEventHandler implements EventHandler<MouseEvent> {
 		SquareView[][] squareViews = gameMap.getSquareViews();
 		/* check side to the left from selection */
 		if (xPos - 2 > 0 
-				&& squareViews[xPos -2 ][yPos].getCurrentState() == SquareView.ACCESSIBLE_EMPTY 
-				&& squareViews[xPos - 1 ][yPos].getCurrentState() == SquareView.ACCESSIBLE_OCCUPIED) {
-	        squareViews[xPos - 2 ][yPos].setCurrentState(SquareView.ACCESSIBLE_EMPTY_HIGHLIGHT);
+				&& squareViews[xPos -2 ][yPos].getCurrentState() == SquareView.EMPTY 
+				&& squareViews[xPos - 1 ][yPos].getCurrentState() == SquareView.OCCUPIED) {
+	        squareViews[xPos - 2 ][yPos].setCurrentState(SquareView.EMPTY_HIGHLIGHT);
 	    }
 		/* check side to the right from selection */
 	    if (xPos + 2 < gameMap.getSquareXYCount() 
-	    		&& squareViews[xPos + 2][yPos].getCurrentState() == SquareView.ACCESSIBLE_EMPTY 
-	    		&& squareViews[xPos + 1 ][yPos].getCurrentState() == SquareView.ACCESSIBLE_OCCUPIED) {
-            squareViews[xPos + 2 ][yPos].setCurrentState(SquareView.ACCESSIBLE_EMPTY_HIGHLIGHT);
+	    		&& squareViews[xPos + 2][yPos].getCurrentState() == SquareView.EMPTY 
+	    		&& squareViews[xPos + 1 ][yPos].getCurrentState() == SquareView.OCCUPIED) {
+            squareViews[xPos + 2 ][yPos].setCurrentState(SquareView.EMPTY_HIGHLIGHT);
         }
 	    /* check fields above selection */
 	    if (yPos - 2 > 0 
-	    		&& squareViews[xPos][yPos - 2].getCurrentState() == SquareView.ACCESSIBLE_EMPTY 
-	    		&& squareViews[xPos][yPos - 1].getCurrentState() == SquareView.ACCESSIBLE_OCCUPIED) {
-            squareViews[xPos][yPos - 2].setCurrentState(SquareView.ACCESSIBLE_EMPTY_HIGHLIGHT);
+	    		&& squareViews[xPos][yPos - 2].getCurrentState() == SquareView.EMPTY 
+	    		&& squareViews[xPos][yPos - 1].getCurrentState() == SquareView.OCCUPIED) {
+            squareViews[xPos][yPos - 2].setCurrentState(SquareView.EMPTY_HIGHLIGHT);
         }
 	    /* check fields under selection */
 	    if (yPos + 2 < gameMap.getSquareXYCount() 
-	    		&& squareViews[xPos][yPos + 2].getCurrentState() == SquareView.ACCESSIBLE_EMPTY 
-	    		&& squareViews[xPos][yPos + 1].getCurrentState() == SquareView.ACCESSIBLE_OCCUPIED) {
-            squareViews[xPos][yPos + 2].setCurrentState(SquareView.ACCESSIBLE_EMPTY_HIGHLIGHT);
+	    		&& squareViews[xPos][yPos + 2].getCurrentState() == SquareView.EMPTY 
+	    		&& squareViews[xPos][yPos + 1].getCurrentState() == SquareView.OCCUPIED) {
+            squareViews[xPos][yPos + 2].setCurrentState(SquareView.EMPTY_HIGHLIGHT);
         }
 	}
 	
@@ -181,8 +181,8 @@ public class SquareEventHandler implements EventHandler<MouseEvent> {
 	private void clearPossibleFieldsFromHighlight(GameMap gameMap) {                     
 	    for (int x = 0; x < gameMap.getSquareXYCount(); x++) 
             for (int y = 0; y < gameMap.getSquareXYCount(); y++) 
-                if (gameMap.getSquareViews()[x][y] != null && gameMap.getSquareViews()[x][y].getCurrentState() == SquareView.ACCESSIBLE_EMPTY_HIGHLIGHT)
-                	gameMap.getSquareViews()[x][y].setCurrentState(SquareView.ACCESSIBLE_EMPTY);
+                if (gameMap.getSquareViews()[x][y] != null && gameMap.getSquareViews()[x][y].getCurrentState() == SquareView.EMPTY_HIGHLIGHT)
+                	gameMap.getSquareViews()[x][y].setCurrentState(SquareView.EMPTY);
     }
 	
 	/**
@@ -195,7 +195,7 @@ public class SquareEventHandler implements EventHandler<MouseEvent> {
 		int counter = 0;
 		for (int x = 0; x < gameMap.getSquareXYCount(); x++) 
             for (int y = 0; y < gameMap.getSquareXYCount(); y++) 
-				if (gameMap.getSquareViews()[x][y].getCurrentState() == SquareView.ACCESSIBLE_OCCUPIED)
+				if (gameMap.getSquareViews()[x][y].getCurrentState() == SquareView.OCCUPIED)
 					counter++;
 		return counter;		
 	}

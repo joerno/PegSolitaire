@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
  * @author Joern Ohmen
  *
  */
-public class CrossGameMap implements GameMap{
+public class CrossGameMap implements GameMap {
 	
 	private final static int SQUARE_XY_COUNT = 11;
 	private final static Image BACKGROUND_IMAGE = new Image(CrossGameMap.class.getResource("/images/background.png").toString());
@@ -40,9 +40,9 @@ public class CrossGameMap implements GameMap{
 			for (int y = 0; y < SQUARE_XY_COUNT; y++) {
 				if ((x > 3 && x < 7 && y > 0 && y < 10 && y != 5) 
 				        || (y > 3 && y < 7 && x > 0 && x < 10 && x != 5)) 
-					squareViews[x][y] = new SquareView(this, x, y, SquareView.ACCESSIBLE_OCCUPIED);
+					squareViews[x][y] = new SquareView(this, x, y, SquareView.OCCUPIED);
 				else if (y == 5 && x == 5)
-					squareViews[x][y] = new SquareView(this, x, y, SquareView.ACCESSIBLE_EMPTY);
+					squareViews[x][y] = new SquareView(this, x, y, SquareView.EMPTY);
 				else
 					squareViews[x][y] = new SquareView(this, x, y, SquareView.INACCESSIBLE);
 			}

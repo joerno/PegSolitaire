@@ -16,9 +16,9 @@ public class SquareViewTest {
     @Test
     public void testSquareViewValues() {                
         CrossGameMap crossMap = new CrossGameMap();        
-        SquareView squareView = new SquareView(crossMap, 4, 4, SquareView.ACCESSIBLE_OCCUPIED);
+        SquareView squareView = new SquareView(crossMap, 4, 4, SquareView.OCCUPIED);
         
-        Assert.assertTrue(squareView.getCurrentState() == SquareView.ACCESSIBLE_OCCUPIED);
+        Assert.assertTrue(squareView.getCurrentState() == SquareView.OCCUPIED);
         Assert.assertNotNull(squareView.getGameMap());
         Assert.assertTrue(squareView.getxPos() == 4);
         Assert.assertTrue(squareView.getyPos() == 4);

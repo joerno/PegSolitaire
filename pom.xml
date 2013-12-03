@@ -13,14 +13,14 @@
 		
 		<!-- set the JavaFx-Path jre/lib and jdk/lib to build the project --> 
 		
-		<!-- example on MacOS: -->
+		<!-- example on MacOS: 
 		<javafx.runtime.lib>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/</javafx.runtime.lib>
 		<javafx.runtime.lib.ant>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/lib/</javafx.runtime.lib.ant>
-		
-		<!--  exampl windows
+		-->
+		<!--  exampl windows -->
 		<javafx.runtime.lib>C:\Program Files\Java\jdk1.7.0_45\jre\lib\</javafx.runtime.lib>
 		<javafx.runtime.lib.ant>C:\Program Files\Java\jdk1.7.0_45\lib\</javafx.runtime.lib.ant>	 
-		-->	
+			
 		
 		<log4j.version>1.2.17</log4j.version>
 		<junit.version>4.11</junit.version>		

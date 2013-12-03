@@ -16,7 +16,6 @@ public class ResourcesTest {
         Assert.assertNotNull(new CrossGameMap().getBackgroundImage());
         Assert.assertNotNull(new ImageView(GameMap.FINISHED_IMAGE).getImage());
         Assert.assertNotNull(new ImageView(SquareView.KNIGHT_IMAGE).getImage());
-        Assert.assertNotNull(new ImageView(SquareView.EMPTY_IMAGE).getImage());
         Assert.assertNotNull(new ImageView(SquareView.EMPTY_HIGHTLIGHT_IMAGE).getImage());
     }
 }
